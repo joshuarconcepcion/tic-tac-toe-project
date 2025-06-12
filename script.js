@@ -52,6 +52,26 @@ const GameController = (function () {
         //[a,b,c] destructures each win array
         //return true if any of the win arrays match what's on the board
         //.some iterates over array and returns true based on function inside
+
+        let isGameOver = false;
+
+        const playRound = () => { //this function is called each time a click is deteced on the board
+            if (isGameOver || GameBoard.getBoard()[index] !== '') return;
+            //checks if game is already over, or if spot is already marked
+
+            GameBoard.markCell(index, currentPlayer.mark);
+
+            if (checkWin()) {
+                console.log(`${currentPlayer} wins!`);
+                isGameOver = true;
+            }
+        }
     }
+
+})();
+
+const displayController = (function () {
+    const cells = document.querySelector('.cell');
+    
 
 })();
