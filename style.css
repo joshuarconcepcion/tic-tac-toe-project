@@ -33,4 +33,12 @@ main {
 
 .cell {
     border: 1px solid black;
+    cursor: pointer;
+    font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(450px / 3);
+    height: calc(450px / 3);
+    box-sizing: border-box;
 }

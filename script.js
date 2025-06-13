@@ -47,31 +47,51 @@ const GameController = (function () {
             [0, 4, 8], [2, 4, 6] //diagonals
         ];
 
-        return wins.some(([a, b, c]) => b[a] && board[a] === board[b] && board[b] === board[c] && board[a] === board[c]);
+        return wins.some(([a, b, c]) => board[a] && board[a] === board[b] && board[a] === board[c]);
         //iterates over each array in wins
         //[a,b,c] destructures each win array
         //return true if any of the win arrays match what's on the board
         //.some iterates over array and returns true based on function inside
+    }
 
         let isGameOver = false;
 
-        const playRound = () => { //this function is called each time a click is deteced on the board
+        const playRound = (index) => { //this function is called each time a click is deteced on the board
             if (isGameOver || GameBoard.getBoard()[index] !== '') return;
             //checks if game is already over, or if spot is already marked
 
             GameBoard.markCell(index, currentPlayer.mark);
+            //takes index from event listener and marks the correct cell
+            DisplayController.render();
 
             if (checkWin()) {
-                console.log(`${currentPlayer} wins!`);
+                console.log(`${currentPlayer.name} wins!`);
                 isGameOver = true;
+                return;
             }
+
+            GameController.switchPlayer();
         }
-    }
+
+    return {playRound, switchPlayer}
 
 })();
 
-const displayController = (function () {
-    const cells = document.querySelector('.cell');
+const DisplayController = (function () {
+    const cells = document.querySelectorAll('.cell');
     
+    cells.forEach((cell, index) => {
+        cell.addEventListener('click', () => {
+            GameController.playRound(index);
+        });
+    });
 
+    const render = () => {
+        const board = GameBoard.getBoard();
+        cells.forEach((cell, i ) => {
+            cell.textContent = board[i];
+        });
+    }
+
+    return {render};
 })();
